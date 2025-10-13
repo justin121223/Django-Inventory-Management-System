@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -139,7 +140,10 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = (BASE_DIR/"asert/")
 
+LOGIN_URL = 'user-login'
 LOGIN_REDIRECT_URL = 'dashboard-index'
+LOGOUT_REDIRECT_URL = 'user-login'
+
 
 LOGIN_URL = 'user-login'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

@@ -5,6 +5,7 @@ from .forms import ProductForm, OrderForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .decorators import auth_users, allowed_users
+from django.shortcuts import render
 # Create your views here.
 
 
@@ -157,3 +158,4 @@ def order(request):
         'order_count': order_count,
     }
     return render(request, 'dashboard/order.html', context)
+
