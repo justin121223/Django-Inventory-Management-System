@@ -1,16 +1,72 @@
 {% extends 'partials/base.html' %}
 {% block title %}Product Delete Page{% endblock %}
+{% load static %}
 
 {% block content %}
+<style>
+    /* Fullscreen background */
+    body {
+        background: url("{% static 'image/paull.jpeg' %}") no-repeat center center fixed;
+        background-size: cover;
+        background-attachment: fixed;
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    /* Glass-style card */
+    .card-delete {
+        background-color: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(8px);
+        border-radius: 15px;
+        color: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+    }
+
+    h3, h4, hr {
+        color: white;
+    }
+
+    /* Buttons */
+    .btn {
+        border: none;
+        transition: 0.3s ease-in-out;
+    }
+
+    .btn-danger {
+        background-color: rgba(220, 53, 69, 0.85);
+    }
+
+    .btn-secondary {
+        background-color: rgba(108, 117, 125, 0.85);
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+        transform: scale(1.05);
+    }
+
+    /* Alert */
+    .alert-danger {
+        background-color: rgba(220, 53, 69, 0.3);
+        color: white;
+        border: none;
+    }
+
+    .row {
+        padding: 40px;
+    }
+</style>
 
 <div class="row my-4">
     <div class="col-md-6 offset-md-3">
-        <div class="border p-3 bg-white">
+        <div class="card-delete">
             <h3>Delete Item</h3>
             <hr>
             <form method="POST">
                 <div class="alert alert-danger">
-                    <h4>Are you sure, you want to delete {{ item }}?</h4>
+                    <h4>Are you sure you want to delete <strong>{{ item }}</strong>?</h4>
                 </div>
                 {% csrf_token %}
                 {{ form }}

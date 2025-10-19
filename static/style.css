@@ -1,7 +1,28 @@
-body{
-    background: rgb(230, 227, 227);
-}
-.my-card:hover{
-    transform: scale(1.1);
-    transition: 0.2s ease-in-out;
-}
+{% load static %}
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background: url("{% static 'image/paull.jpeg' %}") no-repeat center center fixed;
+        background-size: cover;
+        background-attachment: fixed;
+        background-color: #000; /* fallback if image doesn’t load */
+        font-family: Arial, sans-serif;
+    }
+
+    .bg-white {
+        background-color: rgba(255, 255, 255, 0.85);
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .row {
+        margin: 0;
+        padding: 50px;
+    }
+</style>

@@ -1,105 +1,163 @@
 {% extends 'partials/base.html' %}
+{% load static %}
 {% block title %}Home Page{% endblock %}
 
 {% block content %}
+<style>
+    /* ✅ Fullscreen background image */
+    body {
+        background: url("{% static 'image/paull.jpeg' %}") no-repeat center center fixed;
+        background-size: cover;
+        background-attachment: fixed;
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    /* ✅ Glass-style transparent cards */
+    .card,
+    .bg-white {
+        background-color: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(8px);
+        border-radius: 15px;
+        color: white;
+        padding: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ✅ Page spacing */
+    .row {
+        padding: 40px;
+    }
+
+    /* ✅ Chart containers */
+    .chart-container {
+        background: white; /* ✅ White chart background */
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    canvas {
+        width: 100% !important;
+        height: 300px !important;
+    }
+
+    /* ✅ Headings */
+    h5, hr, th {
+        color: white;
+    }
+
+    /* ✅ Chart titles */
+    .chart-title {
+        text-align: center;
+        font-weight: 600;
+        font-size: 18px;
+        color: white;
+        margin-bottom: 10px;
+    }
+</style>
+
 {% if user.is_authenticated and user.is_staff and user.is_superuser %}
 {% include 'partials/topside.html' %}
-<div class="row ">
+
+<div class="row">
+    <!-- ✅ Product Quantities Chart -->
     <div class="col-md-6 my-4">
-        <div class="bg-white">
-            <div class="card-body">
-                <canvas id="myChart1" width="400" height="300"></canvas>
-                <script>
-                    var ctx = document.getElementById('myChart1').getContext('2d');
-                    var myChart1 = new Chart(ctx, {
-                        type: 'pie',
-                        data: {
-                            labels: [{% for product in product %} '{{product.name}}', {% endfor %}],
-                    datasets: [{
-                        label: 'Number of Products',
-                        data: [{% for product in product %} {{ product.quantity }}, {% endfor %}],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
+        <div class="card">
+            <div class="chart-title">📊 Product Quantities</div>
+            <div class="chart-container">
+                <canvas id="myChart1"></canvas>
+            </div>
+            <script>
+                var ctx1 = document.getElementById('myChart1').getContext('2d');
+                var myChart1 = new Chart(ctx1, {
+                    type: 'pie',
+                    data: {
+                        labels: [{% for product in product %} '{{ product.name }}', {% endfor %}],
+                        datasets: [{
+                            label: 'Number of Products',
+                            data: [{% for product in product %} {{ product.quantity }}, {% endfor %}],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.7)',
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(255, 206, 86, 0.7)',
+                                'rgba(75, 192, 192, 0.7)',
+                                'rgba(153, 102, 255, 0.7)',
+                                'rgba(255, 159, 64, 0.7)'
                             ],
-                                borderWidth: 1
-                    }]
-                        },
+                            borderColor: 'white',
+                            borderWidth: 2
+                        }]
+                    },
                     options: {
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: 'black', font: { size: 14 } } // black text inside white background
+                            }
                         }
                     }
-                    });
-                </script>
-            </div>
+                });
+            </script>
         </div>
     </div>
+
+    <!-- ✅ Order Quantities Chart -->
     <div class="col-md-6 my-4">
-        <div class="bg-white">
-            <div class="card-body">
-                <canvas id="myChart" width="400" height="300"></canvas>
-                <script>
-                    var ctx = document.getElementById('myChart').getContext('2d');
-                    var myChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: [{% for order in order %} '{{order.name}}',{% endfor %}],
-                    datasets: [{
-                        label: 'Orders',
-                        data: [{% for order in order %} {{ order.order_quantity }}, {% endfor %}],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
+        <div class="card">
+            <div class="chart-title">📦 Order Quantities</div>
+            <div class="chart-container">
+                <canvas id="myChart"></canvas>
+            </div>
+            <script>
+                var ctx2 = document.getElementById('myChart').getContext('2d');
+                var myChart2 = new Chart(ctx2, {
+                    type: 'bar',
+                    data: {
+                        labels: [{% for order in order %} '{{ order.name }}',{% endfor %}],
+                        datasets: [{
+                            label: 'Orders',
+                            data: [{% for order in order %} {{ order.order_quantity }}, {% endfor %}],
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(255, 206, 86, 0.7)',
+                                'rgba(75, 192, 192, 0.7)',
+                                'rgba(153, 102, 255, 0.7)',
+                                'rgba(255, 99, 132, 0.7)',
+                                'rgba(255, 159, 64, 0.7)'
                             ],
-                                borderWidth: 1
-                    }]
-                        },
+                            borderColor: 'rgba(255, 255, 255, 1)',
+                            borderWidth: 1
+                        }]
+                    },
                     options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
                         scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
+                            x: {
+                                ticks: { color: 'black', font: { size: 13 } },
+                                grid: { color: 'rgba(0, 0, 0, 0.1)', lineWidth: 1 }
+                            },
+                            y: {
+                                ticks: { color: 'black', font: { size: 13 } },
+                                grid: { color: 'rgba(0, 0, 0, 0.1)', lineWidth: 1 }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                labels: { color: 'black', font: { size: 14, weight: 'bold' } }
+                            },
+                            title: { display: false }
                         }
                     }
-                    });
-                </script>
-            </div>
+                });
+            </script>
         </div>
     </div>
 </div>
+
 {% else %}
 {% include 'dashboard/customer_index.html' %}
-{% endif%}
-
+{% endif %}
 {% endblock %}

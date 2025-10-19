@@ -1,36 +1,93 @@
 {% load crispy_forms_tags %}
-<div>
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    Make Request
-                </div>
-                <div class="card-body">
-                    <form method="POST">
-                        {% csrf_token %}
-                        {{ form|crispy }}
-                        <input class="btn btn-info btn-block" type="submit" value="Make Request">
-                    </form>
-                </div>
+{% load static %}
+
+<style>
+    /* Fullscreen background */
+    body {
+        background: url("{% static 'image/paull.jpeg' %}") no-repeat center center fixed;
+        background-size: cover;
+        background-attachment: fixed;
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    /* Glass-style transparent cards/tables */
+    .card,
+    .table {
+        background-color: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(8px);
+        border-radius: 15px;
+        color: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Table text */
+    .table th,
+    .table td {
+        color: white;
+    }
+
+    .table thead {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    /* Buttons */
+    .btn {
+        border: none;
+        transition: 0.3s ease-in-out;
+    }
+
+    .btn-info {
+        background-color: rgba(23, 162, 184, 0.85);
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+        transform: scale(1.05);
+    }
+
+    /* Page spacing */
+    .row {
+        padding: 40px;
+    }
+
+    h5, hr, th {
+        color: white;
+    }
+</style>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card p-3">
+            <div class="card-header bg-info text-white">
+                Make Request
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input class="btn btn-info btn-block" type="submit" value="Make Request">
+                </form>
             </div>
         </div>
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    Orders Records
-                </div>
-                <div class="card-body">
-                    <table class="table bg-white">
-                        <thead class="bg-info text-white">
-                            <tr>
-                                <th scope="col">Product</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Quantity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for order in order %}
+    </div>
+    <div class="col-md-8">
+        <div class="card p-3">
+            <div class="card-header bg-info text-white">
+                Orders Records
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in order %}
                             {% if order.customer == user %}
                             <tr>
                                 <td>{{ order.name }}</td>
@@ -38,10 +95,9 @@
                                 <td>{{ order.order_quantity }}</td>
                             </tr>
                             {% endif %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

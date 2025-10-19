@@ -1,14 +1,71 @@
 {% extends 'partials/base.html' %}
 {% block title %}Customer Page{% endblock %}
-
+{% load static %}
 
 {% block content %}
+<style>
+    /* Fullscreen background */
+    body {
+        background: url("{% static 'image/paull.jpeg' %}") no-repeat center center fixed;
+        background-size: cover;
+        background-attachment: fixed;
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    /* Glass-style transparent cards/tables */
+    .card,
+    .table {
+        background-color: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(8px);
+        border-radius: 15px;
+        color: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Table text */
+    .table th,
+    .table td {
+        color: white;
+    }
+
+    .table thead {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    /* Buttons */
+    .btn {
+        border: none;
+        transition: 0.3s ease-in-out;
+    }
+
+    .btn-info {
+        background-color: rgba(23, 162, 184, 0.85);
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+        transform: scale(1.05);
+    }
+
+    /* Page spacing */
+    .row {
+        padding: 40px;
+    }
+
+    h5, hr, th {
+        color: white;
+    }
+</style>
+
 {% include 'partials/topside.html' %}
+
 <div class="row my-4">
     <div class="col-md-4"></div>
     <div class="col-md-8">
-        <table class="table bg-white">
-            <thead class="bg-info text-white">
+        <table class="table table-borderless">
+            <thead>
                 <tr>
                     <th scope="col"></th>
                     <th scope="col">First</th>
@@ -19,8 +76,10 @@
             <tbody>
                 {% for customer in customer %}
                 <tr>
-                    <th scope="row"><a class="btn btn-info btn-sm"
-                            href="{% url 'dashboard-customer-detail' customer.id %}">View</a></th>
+                    <th scope="row">
+                        <a class="btn btn-info btn-sm"
+                           href="{% url 'dashboard-customer-detail' customer.id %}">View</a>
+                    </th>
                     <td>{{ customer.username }}</td>
                     <td>{{ customer.profile.phone }}</td>
                     <td>{{ customer.email }}</td>
@@ -30,5 +89,4 @@
         </table>
     </div>
 </div>
-
 {% endblock %}
